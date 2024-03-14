@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm, UserChangeForm
 
 from django.contrib.auth.models import User
-from .models import Post
+from .models import Post, Company, Department
 
 class UserRegistration(UserCreationForm):
     email = forms.EmailField(max_length=250,help_text="The email field is required.")
@@ -71,30 +71,30 @@ class UpdatePasswords(PasswordChangeForm):
         fields = ('old_password','new_password1', 'new_password2')
 
 class SavePost(forms.ModelForm):
-    user = forms.IntegerField(help_text = "User Field is required.")
-    title = forms.CharField(max_length=250,help_text = "Title Field is required.")
+    title = forms.CharField(max_length=250, help_text="Title Field is required.")
     description = forms.Textarea()
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), help_text="Company Field is required.")
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), help_text="Department Field is required.")
+    user = forms.ModelChoiceField(queryset=User.objects.filter(groups__name='staff'), help_text="User Field is required.")
 
     class Meta:
-        model= Post
-        fields = ('user','title','description','file_path')
-    
+        model = Post
+        fields = ('title', 'description', 'file_path', 'company', 'department', 'user')
+
     def clean_title(self):
-        id = self.instance.id if not self.instance == None else 0
+        title = self.cleaned_data['title']
+        id = self.instance.id if self.instance else None
         try:
-            if id.isnumeric():
-                 post = Post.objects.exclude(id = id).get(title = self.cleaned_data['title'])
+            if id:
+                post = Post.objects.exclude(id=id).get(title=title)
             else:
-                 post = Post.objects.get(title = self.cleaned_data['title'])
-        except:
-            return self.cleaned_data['title']
-        raise forms.ValidationError(f'{post.title} post Already Exists.')
+                post = Post.objects.get(title=title)
+        except Post.DoesNotExist:
+            return title
+        raise forms.ValidationError(f'{post.title} post already exists.')
 
     def clean_user(self):
-        user_id = self.cleaned_data['user']
-        print("USER: "+ str(user_id))
-        try:
-            user = User.objects.get(id = user_id)
+        user = self.cleaned_data['user']
+        if user.groups.filter(name='staff').exists():
             return user
-        except:
-            raise forms.ValidationError("User ID is unrecognize.")
+        raise forms.ValidationError("User does not belong to the staff group.")

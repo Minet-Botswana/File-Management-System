@@ -24,7 +24,7 @@
                         <dt class="text-muted"><b>Description:</b></dt>
                         <dd class="ps-4">{{ post.description }}</dd>
                         <dt class="text-muted"><b>Uploaded By:</b></dt>
-                        <dd class="ps-4">{{ post.user.username }}</dd>
+                        <dd class="ps-4">{{ post.user.first_name }}</dd> <dd class="ps-4">{{ post.user.last_name }}</dd>
                         <dt class="text-muted"><b>Filename:</b></dt>
                         <dd class="ps-4">{{ post.file_path|replaceBlank:'uploads/' }}</dd>
                     </dl>

@@ -11,6 +11,7 @@ from fmsApp.models import Post
 from cryptography.fernet import Fernet
 from django.conf import settings
 import base64
+from fmsApp.models import Post, Company, Department, DepartmentUser
 # Create your views here.
 
 context = {
@@ -92,9 +93,15 @@ def manage_post(request, pk=None):
     context['page_title'] = 'Manage Post'
     context['post'] = {}
     if not pk is None:
-        post = Post.objects.get(id = pk)
+        post = Post.objects.get(id=pk)
         context['post'] = post
-    return render(request,'manage_post.html',context)
+    companies = Company.objects.all()
+    departments = Department.objects.all()
+    users = User.objects.filter(groups__name='staff')
+    context['companies'] = companies
+    context['departments'] = departments
+    context['users'] = users
+    return render(request, 'manage_post.html', context)
 
 @login_required
 def save_post(request):

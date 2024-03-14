@@ -1,4 +1,3 @@
-from turtle import title
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -10,35 +9,37 @@ from django.dispatch import receiver
 
 # Create your models here.
 
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Department(models.Model):
     name = models.CharField(max_length=100)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
-
-class Group(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
+        return f"{self.company.name} - {self.name}"
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField(blank=True, null=True)
-    file_path = models.FileField(upload_to='uploads/',blank=True, null=True)
+    file_path = models.FileField(upload_to='uploads/', blank=True, null=True)
     date_created = models.DateTimeField(default=timezone.now)
     date_updated = models.DateTimeField(auto_now=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)  # Reference to the company
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)  # Reference to the department
 
     def __str__(self):
-        return self.user.username + '-' + self.title
+        return f"{self.user.username} - {self.title}"
 
     def get_share_url(self):
         fernet = Fernet(settings.ID_ENCRYPTION_KEY)
         value = fernet.encrypt(str(self.pk).encode())
         value = base64.urlsafe_b64encode(value).decode()
-        return reverse("share-file-id", kwargs={"id": (value)})
+        return reverse("share-file-id", kwargs={"id": value})
 
 @receiver(models.signals.post_delete, sender=Post)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
@@ -60,12 +61,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     if not old_file == new_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
-            
+
 class DepartmentUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-
-class GroupUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    
