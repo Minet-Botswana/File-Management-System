@@ -1,4 +1,6 @@
-{% extends 'base.html' %}{% load static %}{% block pageContent %}
+{% extends 'base.html' %}
+{% load static %}
+{% block pageContent %}
 <style>
     main {
         height: 100%;
@@ -18,11 +20,11 @@
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
         <div class="card card-default rounded-0 shadow">
             <div class="card-header">
-                <h4 class="card-title"><b>Login</b></h4>
+                <h4 class="card-title"><b>Staff Login</b></h4>
             </div>
             <div class="card-body">
                 <div class="container-fluid">
-                    <form id="login-user">
+                    <form id="login-staff" method="post">
                         {% csrf_token %}
                         <div class="mdc-layout-grid">
                             <div class="mdc-layout-grid__inner">
@@ -37,11 +39,11 @@
                                 <div class="form-group mb-3">
                                     <div class="d-flex w-100 justify-content-between align-items-center">
                                         <div class="col-md-4">
-                                            <a href="{% url 'login_staff' %}">Login for Staff</a> 
+                                            <!-- No need for link to staff login page -->
                                         </div>
                                         <button class="btn btn-sm rounded-0 btn-primary">
-                                                Login
-                                            </button>
+                                            Login
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -53,10 +55,11 @@
     </div>
 </div>
 
-{% endblock pageContent %} {% block ScriptBlock %}
+{% endblock pageContent %}
+{% block ScriptBlock %}
 <script>
     $(function() {
-        $('#login-user').submit(function(e) {
+        $('#login-staff').submit(function(e) {
             e.preventDefault();
             var _this = $(this)
             $('.err-msg').remove();
@@ -72,7 +75,7 @@
                 headers: {
                     "X-CSRFToken": '{{csrf_token}}'
                 },
-                url: "{% url 'login-user' %}",
+                url: "{% url 'logging_staff' %}",
                 data: new FormData($(this)[0]),
                 cache: false,
                 contentType: false,
@@ -88,7 +91,7 @@
                 success: function(resp) {
                     if (typeof resp == 'object' && resp.status == 'success') {
                         el.removeClass("alert alert-danger err-msg")
-                        location.href = "{% url 'home-page' %}"
+                        location.href = "{% url 'staff_home' %}"
                     } else if (resp.status == 'failed' && !!resp.msg) {
                         el.text(resp.msg)
                     } else {

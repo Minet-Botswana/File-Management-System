@@ -43,11 +43,12 @@ def login_user(request):
 '''
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-import json
 
 def login_user(request):
     logout(request)
     resp = {"status": 'failed', 'msg': ''}
+    username = ''
+    password = ''
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -68,7 +69,33 @@ def login_user(request):
             resp['msg'] = "Incorrect username or password"
     return HttpResponse(json.dumps(resp), content_type='application/json')
 
+def staff_login(request):
+    return render(request, 'staff_login.html')
 
+def logging_staff(request):
+    logout(request)
+    resp = {"status": 'failed', 'msg': ''}
+    username = ''
+    password = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                if user.groups.filter(name='staff').exists():
+                    resp['status'] = 'success'
+                    # Redirect staff users to their dashboard
+                    return HttpResponse(json.dumps(resp), content_type='application/json')
+                else:
+                    resp['msg'] = "You are not authorized to access this dashboard."
+            else:
+                resp['msg'] = "Incorrect username or password"
+        else:
+            resp['msg'] = "Incorrect username or password"
+    return HttpResponse(json.dumps(resp), content_type='application/json')
 
 #Logout
 def logoutuser(request):
