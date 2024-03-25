@@ -8,6 +8,7 @@
         <div class="form-group mb-3">
             <label for="company">Company</label>
             <select class="form-control" id="company" name="company" required>
+                <option value="" disabled selected>Please select company</option>
                 {% for company in companies %}
                 <option value="{{ company.id }}">{{ company.name }}</option>
                 {% endfor %}
@@ -18,6 +19,7 @@
         <div class="form-group mb-3">
             <label for="department">Department</label>
             <select class="form-control" id="department" name="department" required>
+                <option value="" disabled selected> Please select department</option>
                 {% for department in departments %}
                 <option value="{{ department.id }}">{{ department.name }}</option>
                 {% endfor %}
@@ -28,8 +30,9 @@
         <div class="form-group mb-3">
             <label for="user">User</label>
             <select class="form-control" id="user" name="user" required>
-                {% for user in users %}
-                <option value="{{ user.id }}">{{ user.username }}</option>
+                <option value="" disabled selected>Please select user</option>
+                {% for user in users %} 
+                <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
                 {% endfor %}
             </select>
         </div>
@@ -107,4 +110,49 @@
             })
         })
     })
+<!-- ASSOCIATING COMPANY WITH DEPARTMENT AND WITH USER -->
+    $(function() {
+    $('#company').change(function() {
+        var companyId = $(this).val();
+        $.ajax({
+            url: '/get-departments/',
+            data: {'company_id': companyId},
+            dataType: 'json',
+            success: function(data) {
+                var departmentSelect = $('#department');
+                departmentSelect.empty();
+                departmentSelect.append('<option value="" disabled selected>Please select department</option>'); // Add the placeholder option
+                $.each(data.departments, function(key, value) {
+                    departmentSelect.append($('<option></option>').attr('value', value.id).text(value.name));
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching departments:', error);
+                // Handle error gracefully, e.g., display a message to the user
+            }
+        });
+    });
+
+    $('#department').change(function() {
+        var departmentId = $(this).val();
+        $.ajax({
+            url: '/get-users/',
+            data: {'department_id': departmentId},
+            dataType: 'json',
+            success: function(data) {
+                var userSelect = $('#user');
+                userSelect.empty();
+                $.each(data.users, function(key, value) {
+                    var fullName = value.first_name + ' ' + value.last_name;
+                    userSelect.append($('<option></option>').attr('value', value.id).text(fullName));
+                });
+                
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching users:', error);
+                // Handle error gracefully, e.g., display a message to the user
+            }
+        });
+    });
+});
 </script>

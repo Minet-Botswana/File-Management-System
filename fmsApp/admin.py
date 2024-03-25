@@ -19,4 +19,9 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(DepartmentUser)
 class DepartmentUserAdmin(admin.ModelAdmin):
-    list_display = ('user', 'department')
+    list_display = ('user', 'department', 'get_company')
+    list_filter = ('department__company', 'department')
+
+    def get_company(self, obj):
+        return obj.department.company
+    get_company.short_description = 'Company'

@@ -3,7 +3,7 @@
     <div class="card card-default rounded-0 shadow ">
         <div class="card-header">
             <div class="d-flex w-100 align-items-center justify-content-between">
-                <h4 class="card-title fw-bold">My Uploaded Files</h4>
+                <h4 class="card-title fw-bold">All Uploaded Files</h4>
                 <div class="tools">
                     <button type="button" class="btn btn-primary rounded-0 bg-gradient btn-sm" id='add_new'><i class="fa fa-plus"></i> Add New</button>
                 </div>
@@ -13,28 +13,41 @@
             <div class="container-fluid">
                 <table class="table table-bordered" id="post-list">
                     <colgroup>
-                        <col width="5%">
+                        <!--col width="5%"-->
                         <col width="15%">
-                        <col width="25%">
-                        <col width="40%">
+                        <col width="10%">
                         <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="12%">
+                        <col width="10%">
                     </colgroup>
                     <thead>
                         <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
-                            <th class="px-2 py-2 text-center">#</th>
-                            <th class="px-2 py-2 text-center">Date/Time Uploaded</th>
+                            <!--th class="px-2 py-2 text-center">#</th-->
+                            <th class="px-2 py-2 text-center">Date - Time Stamp</th>
                             <th class="px-2 py-2 text-center">Title</th>
                             <th class="px-2 py-2 text-center">Description</th>
+                            <th class="px-2 py-2 text-center">Company</th>
+                            <th class="px-2 py-2 text-center">Department</th>
+                            <th class="px-2 py-2 text-center">File</th>
+                            <th class="px-2 py-2 text-center">Staff member</th>
                             <th class="px-2 py-2 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for post in posts %}
                         <tr>
-                            <td class="px-2 py-1 align-middle">{{ forloop.counter }}</td>
+                            <!--td class="px-2 py-1 align-middle">{{ forloop.counter }}</td-->
                             <td class="px-2 py-1 align-middle">{{ post.date_created|date:"Y-m-d h:i A" }}</td>
                             <td class="px-2 py-1 align-middle">{{ post.title }}</td>
                             <td class="px-2 py-1 align-middle"><p class="m-0 text-truncate">{{ post.description }}</p></td>
+                            <td class="px-2 py-1 align-middle">{{ post.company }}</td>
+                            <td class="px-2 py-1 align-middle">{{ post.department }}</td>
+                            <td class="px-2 py-1 align-middle">
+                                <a href="{{ post.file_path.url }}" target="_blank" class="btn btn-primary btn-sm">View File</a>
+                            </td>
+                            <td class="px-2 py-1 align-middle">{{ post.user }}</td>
                             <td class="px-2 py-1 align-middle text-center">
                                 <a class="btn btn-outline-primary btn-sm edit-data" href="javascript:void(0)" data-id="{{ post.pk }}" title="Edit">
                                     <i class="fa fa-edit"></i>

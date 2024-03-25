@@ -23,8 +23,14 @@
                         <dd class="ps-4">{{ post.title }}</dd>
                         <dt class="text-muted"><b>Description:</b></dt>
                         <dd class="ps-4">{{ post.description }}</dd>
-                        <dt class="text-muted"><b>Uploaded By:</b></dt>
-                        <dd class="ps-4">{{ post.user.first_name }}</dd> <dd class="ps-4">{{ post.user.last_name }}</dd>
+                        <dt class="text-muted"><b>Shared To:</b></dt>
+                        <dd class="ps-4">{{ post.user.first_name }} {{ post.user.last_name }}</dd>
+                        <dt class="text-muted"><b>Date Shared:</b></dt>
+                        <dd class="ps-4">{{ post.date_created}}</dd>
+                        <dt class="text-muted"><b>Company:</b></dt>
+                        <dd class="ps-4">{{ post.company }}</dd>
+                        <dt class="text-muted"><b>Department:</b></dt>
+                        <dd class="ps-4">{{ post.department }}</dd>
                         <dt class="text-muted"><b>Filename:</b></dt>
                         <dd class="ps-4">{{ post.file_path|replaceBlank:'uploads/' }}</dd>
                     </dl>

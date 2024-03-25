@@ -13,6 +13,27 @@
                 margin-top: 45px;
             }
         }
+
+        .nav-item a {
+        text-decoration: none; /* Remove default underline */
+        color: white; /* Set default font color */
+        transition: background-color 0.3s, color 0.3s; /* Add transition for smoother effect */
+        padding: 10px; /* Add padding for better visual */
+    }
+
+    .nav-item a:hover {
+        background-color: red; /* Change background color on hover */
+        color: white; /* Change font color on hover */
+        border-radius: 15px;
+    }
+
+    .nav-item a.selected {
+        font-weight: bold; /* Set font weight to bold for selected item */
+        text-decoration: underline; /* Add underline for selected item */
+        text-underline-position: under; /* Set underline position */
+        border-bottom: 2px solid red; /* Add red line as underline */
+    }
+
     </style>
 
     <!-- Navbar -->
@@ -32,7 +53,7 @@
                         <a class="nav-link" aria-current="page" href="{% url 'home-page' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'posts-page' %}">Upload</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'posts-page' %}">Doc Upload</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -87,4 +108,11 @@
             }
         })
     })
+</script>
+<script>
+    // JavaScript to add and remove 'selected' class on click
+    $('.nav-item a').click(function() {
+        $('.nav-item a').removeClass('selected'); // Remove 'selected' class from all links
+        $(this).addClass('selected'); // Add 'selected' class to the clicked link
+    });
 </script>

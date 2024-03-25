@@ -23,4 +23,9 @@ urlpatterns = [
     path('delet_post', views.delete_post, name='delete-post'),
     path(r'shareF/<str:id>', views.shareF, name='share-file-id'),
     path('shareF/', views.shareF, name='share-file'),
+    
+    path('get-departments/', views.get_departments, name='get-departments'),
+    path('get-users/', views.get_users, name='get-users'),
+    path('staff/home/', views.staff_home, name='staff_home'),
+    
 ]
