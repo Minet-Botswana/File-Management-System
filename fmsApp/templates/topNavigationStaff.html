@@ -1,0 +1,117 @@
+{% load static %}
+<header>
+    <!-- Intro settings -->
+    <style>
+        #intro {
+            /* Margin to fix overlapping fixed navbar */
+            margin-top: 58px;
+        }
+        
+        @media (max-width: 991px) {
+            #intro {
+                /* Margin to fix overlapping fixed navbar */
+                margin-top: 45px;
+            }
+        }
+
+        .nav-item a {
+            text-decoration: none; /* Remove default underline */
+            color: white; /* Set default font color */
+            transition: background-color 0.3s, color 0.3s; /* Add transition for smoother effect */
+            padding: 10px; /* Add padding for better visual */
+        }
+
+        .nav-item a:hover {
+            background-color: red; /* Change background color on hover */
+            color: white; /* Change font color on hover */
+            border-radius: 15px;
+        }
+
+        .nav-item a.selected {
+            font-weight: bold; /* Set font weight to bold for selected item */
+            text-decoration: underline; /* Add underline for selected item */
+            text-underline-position: under; /* Set underline position */
+            border-bottom: 2px solid red; /* Add red line as underline */
+        }
+    </style>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow border-bottom">
+        <div class="container">
+            <!-- Navbar brand -->
+            <a class="navbar-brand" target="_blank" href="{% url 'staff_home' %}">
+                <img src="{{ MEDIA_URL }}/default/minetlogo.png" height="16" alt="{{ MEDIA_URL }}" loading="lazy" style="margin-top: -3px;" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarExample01" aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Apply custom style to the hamburger icon -->
+                <i class="fas fa-bars" style="color: red;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarExample01">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="topNav">
+                    {% if user.id %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'staff_home' %}">Home</a>
+                    </li>
+                    <!--li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'posts-page' %}">Doc Upload</a>
+                    </li-->
+                    {% endif %}
+                </ul>
+
+                <ul class="navbar-nav d-flex flex-row">
+                    {% if user.id %}
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'profile' %}">
+                            <span class="me-1"><img src="{{ MEDIA_URL }}/default/default-avatar.png" alt="User Avatar" id="user-avatar" class="img-thumbnail rounded-circle"></span>Howdy, {{ user.first_name }} {{user.last_name}}
+                        </a>
+                    </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'register-user' %}">Signup</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Jumbotron -->
+    <div id="intro" class="pt-2 text-center bg-light">
+        <!-- <h1 class="mb-3 h2">Learn Bootstrap 5 with MDB</h1>
+        <p class="mb-3">Best & free guide of responsive web design</p>
+        <a class="btn btn-primary m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A" role="button" rel="nofollow" target="_blank">Start tutorial</a>
+        <a class="btn btn-primary m-2" href="https://mdbootstrap.com/docs/standard/" target="_blank" role="button">Download MDB UI KIT</a> -->
+    </div>
+    <!-- Jumbotron -->
+</header>
+
+<script>
+    $(document).ready(function() {
+        // JavaScript to add and remove 'selected' class on click
+        $('.nav-item a').click(function() {
+            $('.nav-item a').removeClass('selected'); // Remove 'selected' class from all links
+            $(this).addClass('selected'); // Add 'selected' class to the clicked link
+        });
+
+        // Highlight the current page link
+        $('#topNav .nav-link').each(function() {
+            var current = '{{ request.get_full_path | urlencode }}';
+            if (current == $(this).attr('href')) {
+                $(this).parent().addClass('active');
+            }
+        });
+    });
+</script>
