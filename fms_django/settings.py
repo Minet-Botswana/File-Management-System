@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-v(!)y2fv58uges^ub#r9n!-oydq=2m%=tv!5b@-x&9lih9^+^t
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://lucky-porpoise-moving.ngrok-free.app']
 
 
 # Application definition
