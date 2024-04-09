@@ -59,12 +59,14 @@
                                     <col width="20%">
                                     <col width="20%">
                                     <col width="20%">
+                                    <col width="20%">
                                     <col width="15%">
                                     </colgroup>
                                 <thead>
                                     <tr class="bg-gradient bg-light">
                                         <th class=text-center>Title</th>
                                         <th class=text-center>Description</th>
+                                        <th class=text-center>File Recipient</th>
                                         <th class=text-center>FileName</th>
                                         <th class=text-center>Stamp Date</th>
                                         <th class=text-center>Copy Link</th>   
@@ -76,6 +78,7 @@
                                     <tr>
                                         <td class="text-start">{{ post.title }}</td>
                                         <td class="text-start">{{ post.description }}</td>
+                                        <td class="text-start">{{ post.user.first_name }} {{ post.user.last_name }}</td>
                                         <td class="text-start"><a href="{{ post.file_path.url }}" download="{{ post.file_path|replaceBlank:'uploads/' }}">{{ post.file_path|replaceBlank:'uploads/' }} <i class="fa fa-download"></i></a></td>
                                         <td class="text-start">{{ post.date_created }}</td>
                                         <td class="text-center"><button class="btn btn-default bg-gradient btn-sm copy-link" type="button" data-url="{{ request.build_absolute_uri|slice:':-1' }}{{ post.get_share_url }}" title="Copy Link tp clipboard"><i class="fa fa-copy"></i> Share Link</button></td>
@@ -126,12 +129,14 @@
                             <col width="20%">
                             <col width="20%">
                             <col width="20%">
+                            <col width="20%">
                             <col width="15%">
                         </colgroup>
                         <thead>
                             <tr class="bg-gradient bg-light">
                                 <th class=text-center>Title</th>
                                 <th class=text-center>Description</th>
+                                <th class=text-center>File Recipient</th>
                                 <th class=text-center>FileName</th>                               
                                 <th class=text-center>Stamp Date</th>  
                                 <th class=text-center>Copy Link</th>
@@ -143,6 +148,7 @@
                             <tr>
                                 <td class="text-start">{{ post.title }}</td>
                                 <td class="text-start">{{ post.description }}</td>
+                                <td class="text-start">{{ post.user.first_name }} {{ post.user.last_name }}</td>
                                 <td class="text-start"><a href="{{ post.file_path.url }}" download="{{ post.file_path|replaceBlank:'uploads/' }}">{{ post.file_path|replaceBlank:'uploads/' }} <i class="fa fa-download"></i></a></td>
                                 <td class="text-start">{{ post.date_created }}</td>
                                 <td class="text-center"><button class="btn btn-default bg-gradient btn-sm copy-link" type="button" data-url="{{ request.build_absolute_uri|slice:':-1' }}{{ post.get_share_url }}" title="Copy Link tp clipboard"><i class="fa fa-copy"></i> Share Link</button></td>
@@ -193,12 +199,14 @@
                             <col width="20%">
                             <col width="20%">
                             <col width="20%">
+                            <col width="20%">
                             <col width="15%">
                         </colgroup>
                         <thead>
                             <tr class="bg-gradient bg-light">
                                 <th class=text-center>Title</th>
                                 <th class=text-center>Description</th>
+                                <th class=text-center>File Recipient</th>
                                 <th class=text-center>FileName</th>
                                 <th class=text-center>Date Stamp</th>
                                 <th class=text-center>Copy Link</th> 
@@ -210,6 +218,7 @@
                             <tr>
                                 <td class="text-start">{{ post.title }}</td>
                                 <td class="text-start">{{ post.description }}</td>
+                                <td class="text-start">{{ post.user.first_name }} {{ post.user.last_name }}</td>
                                 <td class="text-start"><a href="{{ post.file_path.url }}" download="{{ post.file_path|replaceBlank:'uploads/' }}">{{ post.file_path|replaceBlank:'uploads/' }} <i class="fa fa-download"></i></a></td>
                                 <td class="text-start">{{ post.date_created }}</td>
                                 <td class="text-center"><button class="btn btn-default bg-gradient btn-sm copy-link" type="button" data-url="{{ request.build_absolute_uri|slice:':-1' }}{{ post.get_share_url }}" title="Copy Link tp clipboard"><i class="fa fa-copy"></i> Share Link</button></td>
