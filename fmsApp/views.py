@@ -101,7 +101,7 @@ def logging_staff(request):
 def logoutuser(request):
     logout(request)
     return redirect('/')
-
+''''
 @login_required
 def home(request):
     context['page_title'] = 'Home'
@@ -113,6 +113,32 @@ def home(request):
     context['postsLen'] = posts.count()
     print(request.build_absolute_uri())
     return render(request, 'home.html',context)
+'''
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+@login_required
+def home(request):
+    context['page_title'] = 'Home'
+    if request.user.is_superuser:
+        posts = Post.objects.all()
+    else:
+        posts = Post.objects.filter(user=request.user).all()
+    
+    # Paginate the posts to display only 3 logs per page
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    
+    context['posts'] = posts
+    context['postsLen'] = paginator.count
+    print(request.build_absolute_uri())
+    return render(request, 'home.html', context)
+
 
 def registerUser(request):
     user = request.user

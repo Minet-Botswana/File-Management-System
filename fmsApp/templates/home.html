@@ -4,7 +4,96 @@
 
 {% block pageContent %}
 
-<!--Section: Content-->
+<style>
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+    
+    .timeline-item {
+      display: flex;
+      align-items: center; /* Align items vertically */
+      margin-bottom: 20px;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      background-color: #007bff;
+      border-radius: 50%;
+      margin-right: 20px;
+      flex-shrink: 0; /* Prevent item from shrinking */
+    }
+    
+    .timeline-content {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 35px;
+      font-size: 14px; /* Adjust font size */
+    }
+    
+    .timeline-content h3 {
+      margin-top: 0;
+      font-size: 14px; /* Adjust font size */
+    }
+    
+    .timeline-content p {
+      margin-bottom: 0;
+    }
+    
+    .pagination {
+      margin-top: 20px;
+    }
+    
+    .pagination a {
+      text-decoration: none;
+      color: #007bff;
+      margin-right: 10px;
+    }
+    </style>
+    
+    <!-- Section: Content 
+    <div id="timelineWrapper" class="timeline-wrapper">
+        <h4>Timeline of Events</h4>
+    </div-->
+
+    <div id="timelineWrapper" class="timeline-wrapper">
+      <div class="timeline">
+        <h4>Timeline of Events</h4>
+        {% for post in posts %}
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3><strong>{{ post.title }}</strong> - Uploaded for {{ post.user.first_name}} {{ post.user.last_name}}</h3>
+            <p>Sent on {{ post.date_created|date:"F d, Y" }} at {{ post.date_created|time:"g:i A" }}</p>
+
+            <p> {{ post.department }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    
+      <!-- Pagination links -->
+      <div class="pagination">
+        <span class="step-links">
+          {% if posts.has_previous %}
+          <a href="?page=1">&laquo; First</a>
+          <a href="?page={{ posts.previous_page_number }}">Previous</a>
+          {% endif %}
+    
+          <span class="current">
+            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+          </span>
+    
+          {% if posts.has_next %}
+          <a href="?page={{ posts.next_page_number }}">Next</a>
+          <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+    
+<br>
 <section class="">
 
     <!-- Tabs for Companies -->
@@ -200,12 +289,38 @@
             </div>
         </div>
     </div>
-
+    <!--div class="timeline">
+        {% for post in posts %}
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>{{ post.title }}</h3>
+            <p>Sent on {{ post.date_created|date:"F d, Y" }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div-->
+      
 </section>
 
 {% endblock pageContent %}
 
 {% block ScriptBlock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all company tab elements
+        var companyTabs = document.querySelectorAll('.nav-link');
+
+        // Add click event listener to each tab
+        companyTabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                // Hide the timeline when a company tab is clicked
+                document.getElementById('timelineWrapper').style.display = 'none';
+            });
+        });
+    });
+</script>
+
 <script>
     $(function() {
         // Initialize Bootstrap tabs
