@@ -115,3 +115,24 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        // JavaScript to add and remove 'selected' class on click
+        $('.nav-item a').click(function() {
+            $('.nav-item a').removeClass('selected'); // Remove 'selected' class from all links
+            $(this).addClass('selected'); // Add 'selected' class to the clicked link
+
+            // Close the navbar menu when a menu item is clicked
+            $('.navbar-collapse').collapse('hide');
+        });
+
+        // Highlight the current page link
+        $('#topNav .nav-link').each(function() {
+            var current = '{{ request.get_full_path | urlencode }}';
+            if (current == $(this).attr('href')) {
+                $(this).parent().addClass('active');
+            }
+        });
+    });
+</script>
+

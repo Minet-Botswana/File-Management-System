@@ -104,6 +104,9 @@
         $('.nav-item a').click(function() {
             $('.nav-item a').removeClass('selected'); // Remove 'selected' class from all links
             $(this).addClass('selected'); // Add 'selected' class to the clicked link
+
+            // Close the navbar menu when a menu item is clicked
+            $('.navbar-collapse').collapse('hide');
         });
 
         // Highlight the current page link
