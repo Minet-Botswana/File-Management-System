@@ -4,6 +4,9 @@
 
 {% block pageContent %}
 
+<!-- Include DataTables CSS -->
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
 <style>
     .timeline {
       position: relative;
@@ -139,7 +142,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company2Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -198,7 +201,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company1Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -258,7 +261,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company3Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -360,6 +363,35 @@
     // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', function() {
         updateTotalFileItems();
+    });
+</script>
+
+<!-- JavaScript for Company 1 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        var company1Table = $('#company1Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
+        // Initialize DataTable for Company 2
+        var company2Table = $('#company2Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
+
+        // Initialize DataTable for Company 3
+        var company3Table = $('#company3Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
     });
 </script>
 {% endblock ScriptBlock %}

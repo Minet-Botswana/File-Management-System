@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="summary-icon p-3 rounded border text-center bg-gradient bg-light">
-                                        <i class="fa fa-folder-open fs-2" style="color: rgb(245, 14, 33);"></i>
+                                        <i class="fa fa-folder-open fs-2" style="color: rgb(95, 14, 245);"></i>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company2Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="summary-icon p-3 rounded border text-center bg-gradient bg-light">
-                                        <i class="fa fa-folder-open fs-2" style="color: rgb(245, 14, 33);"></i>
+                                        <i class="fa fa-folder-open fs-2" style="color: rgb(95, 14, 245);"></i>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company1Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-4">
                                     <div class="summary-icon p-3 rounded border text-center bg-gradient bg-light">
-                                        <i class="fa fa-folder-open fs-2" style="color: rgb(245, 14, 33);"></i>
+                                        <i class="fa fa-folder-open fs-2" style="color: rgb(95, 14, 245);"></i>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +169,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped" id="company3Table">
                             <thead>
                                 <tr class="bg-gradient bg-light">
                                     <th class="text-center">Title</th>
@@ -200,12 +200,38 @@
             </div>
         </div>
     </div>
-
+    <!--div class="timeline">
+        {% for post in posts %}
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3>{{ post.title }}</h3>
+            <p>Sent on {{ post.date_created|date:"F d, Y" }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div-->
+      
 </section>
 
 {% endblock pageContent %}
 
 {% block ScriptBlock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all company tab elements
+        var companyTabs = document.querySelectorAll('.nav-link');
+
+        // Add click event listener to each tab
+        companyTabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                // Hide the timeline when a company tab is clicked
+                document.getElementById('timelineWrapper').style.display = 'none';
+            });
+        });
+    });
+</script>
+
 <script>
     $(function() {
         // Initialize Bootstrap tabs
@@ -245,6 +271,35 @@
     // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', function() {
         updateTotalFileItems();
+    });
+</script>
+
+<!-- JavaScript for Company 1 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        var company1Table = $('#company1Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
+        // Initialize DataTable for Company 2
+        var company2Table = $('#company2Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
+
+        // Initialize DataTable for Company 3
+        var company3Table = $('#company3Table').DataTable({
+            paging: true, // Enable pagination
+            searching: true, // Enable search
+            ordering: true // Enable ordering
+        });
     });
 </script>
 {% endblock ScriptBlock %}
