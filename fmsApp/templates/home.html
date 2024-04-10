@@ -63,37 +63,9 @@
 
     <div id="timelineWrapper" class="timeline-wrapper">
       <div class="timeline">
-        <h4>Timeline of Events</h4>
-        {% for post in posts %}
-        <div class="timeline-item">
-          <div class="timeline-content">
-            <h3><strong>{{ post.title }}</strong> - Uploaded for {{ post.user.first_name}} {{ post.user.last_name}}</h3>
-            <p>Sent on {{ post.date_created|date:"F d, Y" }} at {{ post.date_created|time:"g:i A" }}</p>
-
-            <p> {{ post.department }}</p>
-          </div>
-        </div>
-        {% endfor %}
+        <a href="{% url 'history' %}" class="btn btn-primary">View History</a>
       </div>
     
-      <!-- Pagination links -->
-      <div class="pagination">
-        <span class="step-links">
-          {% if posts.has_previous %}
-          <a href="?page=1">&laquo; First</a>
-          <a href="?page={{ posts.previous_page_number }}">Previous</a>
-          {% endif %}
-    
-          <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-          </span>
-    
-          {% if posts.has_next %}
-          <a href="?page={{ posts.next_page_number }}">Next</a>
-          <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
-          {% endif %}
-        </span>
-      </div>
     </div>
     
 <br>
