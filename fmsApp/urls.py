@@ -16,6 +16,7 @@ urlpatterns = [
     # path('update-avatar',views.update_avatar,name='update-avatar'),
     path('update-password',views.update_password,name='update-password'),
     path('', views.home, name='home-page'),
+    path('history/', views.history, name='history'),
     path('my_posts', views.posts_mgt, name='posts-page'),
     path('manage_post', views.manage_post, name='manage-post'),
     path('manage_post/<int:pk>', views.manage_post, name='manage-post'),

@@ -13,8 +13,8 @@ from django.conf import settings
 import base64
 from fmsApp.models import Post, Company, Department, DepartmentUser, Department, DepartmentUser
 from django.http import JsonResponse
-#from .models import File  # Assuming you have a File model
-# Create your views here.
+from django.core.mail import send_mail
+from django.conf import settings
 
 context = {
     'page_title' : 'File Management System',
@@ -116,8 +116,9 @@ def home(request):
 '''
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 @login_required
-def home(request):
+def history(request):
     context['page_title'] = 'Home'
     if request.user.is_superuser:
         posts = Post.objects.all()
@@ -136,6 +137,30 @@ def home(request):
     
     context['posts'] = posts
     context['postsLen'] = paginator.count
+    print("post: ", posts)
+    print(request.build_absolute_uri())
+    return render(request, 'history.html', context)
+@login_required
+def home(request):
+    context['page_title'] = 'Home'
+    if request.user.is_superuser:
+        posts = Post.objects.all()
+    else:
+        posts = Post.objects.filter(user=request.user).all()
+    
+    # Paginate the posts to display only 3 logs per page
+    #paginator = Paginator(posts, 5)
+    #page_number = request.GET.get('page')
+    #try:
+        #posts = paginator.page(page_number)
+    #except PageNotAnInteger:
+        #posts = paginator.page(1)
+    #except EmptyPage:
+        #posts = paginator.page(paginator.num_pages)
+    
+    context['posts'] = posts
+    #context['postsLen'] = paginator.count
+    print("post: ", posts)
     print(request.build_absolute_uri())
     return render(request, 'home.html', context)
 
@@ -226,6 +251,19 @@ def save_post(request):
             form.save()
             messages.success(request,'File has been saved successfully.')
             resp['status'] = 'success'
+            
+            # Retrieve the user's email
+            user_id = request.POST.get('user')
+            user_email = User.objects.get(id=user_id).email
+            
+            # Send email notification to the user
+            # Define email subject and body
+            subject = 'Minet - FMS Portal'
+            body = f"A document has been uploaded for you on the online document portal.\n Please login to the portal to view it: https://lucky-porpoise-moving.ngrok-free.app/"
+            
+            # Call email_alert function with subject, body, and recipient email address
+            email_alert(subject, body, user_email)
+        
         else:
             for fields in form:
                 for error in fields.errors:
@@ -236,6 +274,27 @@ def save_post(request):
         resp['msg'] = "No Data sent."
     print(resp)
     return HttpResponse(json.dumps(resp),content_type="application/json")
+
+import smtplib
+from email.message import EmailMessage
+
+def email_alert(subject, body, to):
+    msg = EmailMessage()
+    msg.set_content(body)
+    
+    msg['Subject'] = subject
+    #msg['From'] = "goitsemang.lebane@minet.co.bw"
+    msg['To'] = to
+    
+    user = "austinglebane@gmail.com"
+    password = "shcb pffx mqyj nujf"
+    
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(user, password)
+    server.send_message(msg)
+    server.quit()
+
 
 @login_required
 def delete_post(request):
@@ -335,6 +394,26 @@ def staff_home(request):
 
     # Render the template with posts data
     return render(request, 'staff_home.html', context)
+'''
+from django.core.mail import send_mail
+from django.conf import settings
+
+
+def email_alert(user_email):
+    subject = 'Document Uploaded Notification'
+    message = 'A document has been uploaded for you. Please login to view it.'
+    sender_email = settings.EMAIL_HOST_USER
+    recipient_list = [user_email]
+
+    try:
+        send_mail(subject, message, sender_email, recipient_list, fail_silently=False)
+        print("Notification email sent successfully.")
+    except Exception as e:
+        print("An error occurred while sending the notification email:", str(e))
+'''
+import smtplib
+from email.message import EmailMessage
+
 
 
 

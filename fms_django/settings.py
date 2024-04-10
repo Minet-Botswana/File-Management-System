@@ -152,6 +152,40 @@ LOGIN_URL = '/login'
 ID_ENCRYPTION_KEY = b'UdhnfelTxqj3q6BbPe7H86sfQnboSBzb0irm2atoFUw='
 
 
+#email configuration
+#for contact us give your gmail id and password
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'austinglebane@gmail.com' # this email will be used to send emails
+EMAIL_HOST_PASSWORD = 'shcb pffx mqyj nujf' # host email password required
+# now sign in with your host gmail account in your browser
+# open following link and turn it ON
+# https://myaccount.google.com/lesssecureapps
+# otherwise you will get SMTPAuthenticationError at /contactus
+# this process is required because google blocks apps authentication by default
+EMAIL_RECEIVING_USER = ['austinglebane@gmail.com'] # email on which you will receive messages sent from website
+
+SESSION_COOKIE_AGE = 1800  # 30 minutes
+SESSION_SAVE_EVERY_REQUEST = True # update the session expiration time every time a request is made, ensuring that the session doesn't expire as long as the user is active
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True # log users out when they close their browser
+
+''''
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'goitsemang.lebane@minet.co.bw' # this email will be used to send emails
+EMAIL_HOST_PASSWORD = 'November@062024' # host email password required
+# now sign in with your host gmail account in your browser
+# open following link and turn it ON
+# https://myaccount.google.com/lesssecureapps
+# otherwise you will get SMTPAuthenticationError at /contactus
+# this process is required because google blocks apps authentication by default
+EMAIL_RECEIVING_USER = ['goitsemang.lebane@minet.co.bw'] # email on which you will receive messages sent from website
+'''
+
 # Administrators Login settings
 
 JAZZMIN_SETTINGS = {
